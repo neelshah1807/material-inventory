@@ -137,7 +137,7 @@ th{
 <script>
 
 // 🔴 PASTE YOUR GOOGLE APPS SCRIPT WEB APP URL BETWEEN THE QUOTES BELOW:
-const WEB_APP_URL = "PASTE_YOUR_APPS_SCRIPT_URL_HERE";
+const WEB_APP_URL = "https://script.google.com/macros/s/AKfycbzihJ-Km6XgNKBIz7J3tunOc7Bg11MnHmUC4gwo917tXQRNPCbvDHmPvA1I1e-BteYS/exec";
 
 // Party Master
 let parties = JSON.parse(localStorage.getItem("parties")) || [
