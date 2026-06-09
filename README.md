@@ -137,7 +137,7 @@ th{
 <script>
 
 // 🔴 YOUR WEB APP URL:
-const WEB_APP_URL = "https://script.google.com/macros/s/AKfycbzihJ-Km6XgNKBIz7J3tunOc7Bg11MnHmUC4gwo917tXQRNPCbvDHmPvA1I1e-BteYS/exec";
+const WEB_APP_URL = "https://script.google.com/macros/s/AKfycbxErM13Y8RJmJXVNk4nwtMWg0EFJ_oHQcb59-aEF3PTVbHJXcHq4BgRA0LrSkagQzlB/exec";
 
 // Party Master
 let parties = JSON.parse(localStorage.getItem("parties")) || [
