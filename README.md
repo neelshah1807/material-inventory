@@ -136,7 +136,7 @@ th{
 
 <script>
 
-// 🔴 PASTE YOUR GOOGLE APPS SCRIPT WEB APP URL BETWEEN THE QUOTES BELOW:
+// 🔴 YOUR WEB APP URL:
 const WEB_APP_URL = "https://script.google.com/macros/s/AKfycbzihJ-Km6XgNKBIz7J3tunOc7Bg11MnHmUC4gwo917tXQRNPCbvDHmPvA1I1e-BteYS/exec";
 
 // Party Master
@@ -321,8 +321,8 @@ row.insertCell(8).innerHTML=entryData.measurement;
 row.insertCell(9).innerHTML=entryData.qty;
 row.insertCell(10).innerHTML=entryData.other;
 
-// Send data to master Google Sheet seamlessly via text/plain blob to bypass CORS
-if (WEB_APP_URL && WEB_APP_URL !== "https://script.google.com/macros/s/AKfycbxAfuhGixCrgQJOKPiwd5JyIw2IKS6pH-rBOCqODpF6JOMPkMznEgsrhSjcyl6gDS87/exec") {
+// Simplified condition so the fetch runs immediately using your top variable
+if (WEB_APP_URL) {
     fetch(WEB_APP_URL, {
         method: "POST",
         mode: "no-cors", 
