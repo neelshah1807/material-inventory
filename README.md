@@ -114,6 +114,7 @@ th{
 <button onclick="addEntry()">Save Entry</button>
 <button onclick="uploadLastEntryToDatabase()" style="background-color: #4CAF50; color: white; font-weight: bold; border: 1px solid #4CAF50;">Upload to Database</button>
 <button onclick="exportTableToExcel()">Export to Excel</button>
+<button onclick="clearTable()" style="background-color: #f44336; color: white; font-weight: bold; border: 1px solid #f44336;">Clear Table</button>
 
 <table id="register">
 <thead>
@@ -257,3 +258,142 @@ JSON.stringify(materials)
 loadDropdowns();
 
 }
+}
+}
+
+// Remove Material
+function removeMaterial(){
+let selected=document.getElementById("material").value;
+
+if(selected==="Select Material"){
+alert("Select Material First");
+return;
+}
+
+if(confirm("Delete "+selected+" ?")){
+materials=materials.filter(
+m=>m!==selected
+);
+
+localStorage.setItem(
+"materials",
+JSON.stringify(materials)
+);
+
+loadDropdowns();
+}
+}
+
+// Save data directly into HTML table
+function addEntry() {
+    let date = document.getElementById("date").value;
+    let challan = document.getElementById("challan").value;
+    let lorry = document.getElementById("lorry").value;
+    let material = document.getElementById("material").value;
+    let party = document.getElementById("party").value;
+    let bill = document.getElementById("bill").value;
+    let remark = document.getElementById("remark").value;
+    let measurement = document.getElementById("measurement").value;
+    let qty = document.getElementById("qty").value;
+    let other = document.getElementById("other").value;
+
+    if (!date) {
+        alert("Please select a date.");
+        return;
+    }
+
+    let tableBody = document.querySelector("#register tbody");
+    let currentSrNo = tableBody.rows.length + 1;
+
+    lastSavedEntryData = {
+        srNo: currentSrNo,
+        date: date,
+        challan: challan,
+        lorry: lorry,
+        material: material,
+        party: party,
+        bill: bill,
+        remark: remark,
+        measurement: measurement,
+        qty: qty,
+        other: other
+    };
+
+    let row = document.createElement("tr");
+    row.innerHTML = `
+        <td>${lastSavedEntryData.srNo}</td>
+        <td>${lastSavedEntryData.date}</td>
+        <td>${lastSavedEntryData.challan}</td>
+        <td>${lastSavedEntryData.lorry}</td>
+        <td>${lastSavedEntryData.material}</td>
+        <td>${lastSavedEntryData.party}</td>
+        <td>${lastSavedEntryData.bill}</td>
+        <td>${lastSavedEntryData.remark}</td>
+        <td>${lastSavedEntryData.measurement}</td>
+        <td>${lastSavedEntryData.qty}</td>
+        <td>${lastSavedEntryData.other}</td>
+    `;
+
+    tableBody.appendChild(row);
+    
+    document.getElementById("challan").value = "";
+    document.getElementById("lorry").value = "";
+    document.getElementById("bill").value = "";
+    document.getElementById("remark").value = "";
+    document.getElementById("measurement").value = "";
+    document.getElementById("qty").value = "";
+    document.getElementById("other").value = "";
+    
+    alert("Entry saved successfully!");
+}
+
+// Send last saved row to Web App
+function uploadLastEntryToDatabase() {
+    if (!lastSavedEntryData) {
+        alert("No entry to upload. Save an entry first.");
+        return;
+    }
+
+    fetch(WEB_APP_URL, {
+        method: "POST",
+        mode: "no-cors",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(lastSavedEntryData)
+    })
+    .then(() => {
+        alert("Uploaded successfully!");
+    })
+    .catch(err => {
+        console.error(err);
+        alert("Upload failed.");
+    });
+}
+
+// Download Table to Excel Spreadsheet
+function exportTableToExcel() {
+    let table = document.getElementById("register");
+    let html = table.outerHTML;
+    let url = 'data:application/vnd.ms-excel,' + encodeURIComponent(html);
+    let downloadLink = document.createElement("a");
+    
+    document.body.appendChild(downloadLink);
+    downloadLink.href = url;
+    downloadLink.download = 'Material_Register.xls';
+    downloadLink.click();
+    document.body.removeChild(downloadLink);
+}
+
+// Clear the table data completely
+function clearTable() {
+    if (confirm("Clear all data rows from the table?")) {
+        document.querySelector("#register tbody").innerHTML = "";
+        lastSavedEntryData = null;
+    }
+}
+
+// Run dropdown initializer
+loadDropdowns();
+
+</script>
+</body>
+</html>
